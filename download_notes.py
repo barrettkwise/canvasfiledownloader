@@ -30,9 +30,15 @@ except FileNotFoundError:
 
 canvas = canvasapi.Canvas(BASE_URL, ACCESS_TOKEN)
 
-course_ids = {
-    str(course_id): course for course_id, course in enumerate(canvas.get_courses())
-}
+course_id = 0
+course_ids = {}
+for course in canvas.get_courses():
+    # check if course has a name attribute
+    if hasattr(course, "name"):
+        course_ids[str(course_id)] = course
+        course_id += 1
+    else:
+        continue
 
 print("\nCourses:")
 for i in course_ids:
